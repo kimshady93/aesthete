@@ -1,24 +1,20 @@
-const express =  require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const express = require('express');
+const routes = require('./routes');
+const sequelize = require('./config/connection');
+// const path = require(path);
 
-const port = 8080;
+const app = express();
+const PORT = process.env.PORT || 3001;
 
+// middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// turn on routes
+app.use(routes);
 
-const app  = express();
+// turn on connection to db and server 
+// if force:true, drop and re-create all of the database tables on startup
+sequelize.sync({ force: false }).then(() => {
+    app.listen(PORT, () => console.log('Now listening!'));
+});
 
-app.get('/',(req ,res)=>{
-    res.send(' world')
-
-})
-
-app.get('/login',(req,res)=>{
-    res.send('running')
-})
-
-
-
-
-
-app.listen(port)
-console.log(`listing on port http://localhost:${port}`)
