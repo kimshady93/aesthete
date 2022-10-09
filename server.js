@@ -1,7 +1,7 @@
 const express = require('express');
-const routes = require('./routes');
+const routes = require('./routes/api/');
 const sequelize = require('./config/connection');
-// const path = require(path);
+const path = require(path);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // turn on routes
 app.use(routes);
+app.get('/',routes)
 
 // turn on connection to db and server 
 // if force:true, drop and re-create all of the database tables on startup
